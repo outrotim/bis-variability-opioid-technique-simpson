@@ -1,0 +1,212 @@
+{
+  "metadata": {
+    "manuscript_title": "Anesthetic Technique Drives a Simpson's Paradox in the Association Between Bispectral Index Variability and Intraoperative Opioid Administration: A Retrospective Cohort Study",
+    "data_level": "aggregate only",
+    "code_license": "MIT",
+    "aggregate_estimates_license": "CC-BY-4.0",
+    "patient_level_data_included": false
+  },
+  "cohort_flow": {
+    "source_cohort": {
+      "label": "VitalDB source cohort",
+      "n": 6388
+    },
+    "initially_eligible": {
+      "label": "Initially eligible cohort",
+      "n": 5557
+    },
+    "adequate_bis_variability": {
+      "label": "Adequate BIS variability data",
+      "n": 5436
+    },
+    "primary_complete_case": {
+      "label": "Primary complete-case cohort",
+      "n": 5085
+    },
+    "mac_available_subset": {
+      "label": "MAC-available subset",
+      "n": 5065
+    },
+    "tiva": {
+      "label": "TIVA",
+      "definition": "TWA-MAC <0.3",
+      "n": 3086
+    },
+    "volatile_supplemented": {
+      "label": "Volatile-supplemented",
+      "definition": "TWA-MAC >=0.3",
+      "n": 1979
+    },
+    "exclusions": {
+      "before_eligibility": [
+        {
+          "reason": "Non-general anesthesia",
+          "n": 345
+        },
+        {
+          "reason": "No BIS monitoring",
+          "n": 425
+        },
+        {
+          "reason": "Age <18 yr",
+          "n": 48
+        },
+        {
+          "reason": "Duration/ASA criteria",
+          "n": 13
+        }
+      ],
+      "insufficient_bis": {
+        "reason": "Insufficient BIS data for variability computation",
+        "n": 121
+      },
+      "primary_exclusions": [
+        {
+          "reason": "No opioid recorded",
+          "n": 255
+        },
+        {
+          "reason": "ASA missing among opioid-positive cases",
+          "n": 96
+        }
+      ],
+      "missing_twa_mac": {
+        "reason": "Missing TWA-MAC",
+        "n": 20
+      }
+    }
+  },
+  "core_models": [
+    {
+      "label": "Pooled Model 2",
+      "outcome": "OME/kg/hr",
+      "n": 5085,
+      "term": "CV-BIS",
+      "exp_beta": 1.02133909054953,
+      "ci_low": 1.018846122124126,
+      "ci_high": 1.0238381589064498,
+      "p": 2.522831238288696e-64
+    },
+    {
+      "label": "MAC-available pooled Model 2",
+      "outcome": "OME/kg/hr",
+      "n": 5065,
+      "term": "CV-BIS",
+      "exp_beta": 1.021580278774929,
+      "ci_low": 1.019085245490185,
+      "ci_high": 1.0240814206665039,
+      "p": 1.1810346902793006e-65
+    },
+    {
+      "label": "TIVA Model 2",
+      "outcome": "OME/kg/hr",
+      "n": 3086,
+      "term": "CV-BIS",
+      "exp_beta": 0.9961628931788721,
+      "ci_low": 0.9942187219493743,
+      "ci_high": 0.998110866189292,
+      "p": 0.00011471805852959303
+    },
+    {
+      "label": "Volatile-supplemented Model 2",
+      "outcome": "OME/kg/hr",
+      "n": 1979,
+      "term": "CV-BIS",
+      "exp_beta": 0.9953410834667941,
+      "ci_low": 0.9904586611138955,
+      "ci_high": 1.0002475735056728,
+      "p": 0.06269728739115844
+    },
+    {
+      "label": "Raw remifentanil pooled",
+      "outcome": "Raw remifentanil rate",
+      "n": 4241,
+      "term": "CV-BIS",
+      "exp_beta": 1.0157317692721994,
+      "ci_low": 1.0135158942528766,
+      "ci_high": 1.0179524889142155,
+      "p": 1.378121869017121e-44
+    },
+    {
+      "label": "Raw remifentanil TIVA",
+      "outcome": "Raw remifentanil rate",
+      "n": 3085,
+      "term": "CV-BIS",
+      "exp_beta": 0.996190253481403,
+      "ci_low": 0.9942487901879496,
+      "ci_high": 0.9981355078578903,
+      "p": 0.00012554200727590774
+    },
+    {
+      "label": "Raw remifentanil volatile-supplemented",
+      "outcome": "Raw remifentanil rate",
+      "n": 1156,
+      "term": "CV-BIS",
+      "exp_beta": 0.999731610463651,
+      "ci_low": 0.9940164888107249,
+      "ci_high": 1.0054795913456496,
+      "p": 0.9268819840607203
+    }
+  ],
+  "interaction_model": {
+    "n": 5065,
+    "terms": {
+      "CV_BIS": {
+        "exp_beta": 0.9986204490774232,
+        "ci_low": 0.9955959192119488,
+        "ci_high": 1.0016541671895856,
+        "p": 0.37237888320499113
+      },
+      "TWA_MAC": {
+        "exp_beta": 0.40098462858298634,
+        "ci_low": 0.3709555276929838,
+        "ci_high": 0.43344460550244185,
+        "p": 3.71080981030498e-117
+      },
+      "CV_BIS_x_TWA_MAC": {
+        "exp_beta": 0.994580661476396,
+        "ci_low": 0.9901371088529954,
+        "ci_high": 0.9990441559439518,
+        "p": 0.017379011285774734
+      }
+    }
+  },
+  "marginal_effects_by_twa_mac": [
+    {
+      "TWA_MAC": 0.0,
+      "exp_beta": 0.9986204490774232,
+      "ci_low": 0.9955959192119488,
+      "ci_high": 1.0016541671895856
+    },
+    {
+      "TWA_MAC": 0.2,
+      "exp_beta": 0.9975357226680112,
+      "ci_low": 0.9949743267094523,
+      "ci_high": 1.0001037125145533
+    },
+    {
+      "TWA_MAC": 0.4,
+      "exp_beta": 0.9964521745154478,
+      "ci_low": 0.9940920053849094,
+      "ci_high": 0.9988179471497811
+    },
+    {
+      "TWA_MAC": 0.6,
+      "exp_beta": 0.995369803339881,
+      "ci_low": 0.9928863206273028,
+      "ci_high": 0.9978594979281349
+    },
+    {
+      "TWA_MAC": 0.8,
+      "exp_beta": 0.9942886078628492,
+      "ci_low": 0.9914004522347148,
+      "ci_high": 0.9971851772887719
+    },
+    {
+      "TWA_MAC": 1.0,
+      "exp_beta": 0.9932085868072792,
+      "ci_low": 0.9897331329885787,
+      "ci_high": 0.9966962447028601
+    }
+  ]
+}
