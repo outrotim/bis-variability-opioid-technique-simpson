@@ -46,8 +46,8 @@ The model script expects a locally reconstructed analysis dataset. The dataset i
 
 ```bash
 python src/reproduce_core_models.py \
-  --analysis-dataset path/to/final_analysis_dataset.csv \
-  --mac-source path/to/round5_sensitivity_data.csv \
+  --analysis-dataset path/to/derived_analysis_dataset.csv \
+  --mac-source path/to/derived_mac_covariates.csv \
   --out outputs/reanalysis.json
 ```
 
