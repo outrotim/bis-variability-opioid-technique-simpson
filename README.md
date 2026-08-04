@@ -1,36 +1,34 @@
-# BIS Variability, Anesthetic Technique, and Intraoperative Opioid Administration
+# BIS Variability and Anesthetic-Regimen-Specific Opioid Administration
 
-This repository provides the minimal public code and aggregate estimates for the manuscript:
+This repository contains the minimal public code and aggregate estimates for:
 
-**Anesthetic Technique Drives a Simpson's Paradox in the Association Between Bispectral Index Variability and Intraoperative Opioid Administration: A Retrospective Cohort Study**
+**Bispectral index variability reveals anesthetic-regimen-specific patterns of intraoperative opioid administration: a retrospective cohort study**
 
-The repository is intentionally small. It supports transparency for the model specification, core aggregate estimates, and public figure regeneration without redistributing patient-level data.
+The study asks whether routine BIS variability has a consistent medication-management meaning across anesthetic regimens. The public package supports inspection of the model formulas, local re-estimation after an independent VitalDB reconstruction, and regeneration of aggregate figures. It intentionally excludes patient-level and event-window data.
 
 ## Repository Contents
 
 | Path | Purpose |
 |---|---|
-| `README.md` | Repository scope, data availability, usage, licenses, and citation placeholder. |
+| `README.md` | Scope, data availability, use, licenses, and citation placeholder. |
 | `LICENSE` | MIT license for code. |
-| `LICENSE-CC-BY-4.0.md` | CC BY 4.0 license notice for aggregate estimates and non-code parameters. |
+| `LICENSE-CC-BY-4.0.md` | CC BY 4.0 notice for aggregate estimates and non-code parameters. |
 | `requirements.txt` | Minimal Python dependencies. |
-| `aggregate_estimates.json` | Aggregate-only cohort counts and model estimates reported in the manuscript. |
-| `src/reproduce_core_models.py` | Recomputes the core Gamma GLM models from a user-provided local analysis dataset. |
-| `src/generate_public_figures.py` | Regenerates public aggregate versions of the study flow diagram and forest plot. |
+| `aggregate_estimates.json` | Aggregate cohort flow, preprocessing parameters, quality-audit counts, and reported estimates. |
+| `src/reproduce_core_models.py` | Fits pooled, technique-adjusted, and technique-stratified Gamma GLMs with HC3 covariance from a locally reconstructed dataset. |
+| `src/generate_public_figures.py` | Regenerates the aggregate study-flow and forest figures. |
 
 ## Data Availability
 
-The source database used for the study is the public VitalDB database. Users should obtain data directly from VitalDB under its applicable terms and reconstruct any analysis dataset locally.
+The source data are available from the [VitalDB repository](https://doi.org/10.13026/czw8-9p62) and should be obtained directly under its applicable terms. This repository does not redistribute:
 
-This repository does **not** redistribute:
+- patient-level source or derived data;
+- high-resolution physiologic or infusion-pump tracks;
+- five-minute event-window records;
+- intermediate feature tables;
+- local paths, credentials, or internal workflow metadata.
 
-- patient-level case data;
-- derived patient-level analysis datasets;
-- high-resolution physiologic waveform files;
-- intermediate per-case feature tables;
-- local audit outputs containing file paths or internal workflow metadata.
-
-The file `aggregate_estimates.json` contains only aggregate cohort counts and model estimates that are already reported or directly support reported manuscript tables and figures.
+`aggregate_estimates.json` contains only non-identifiable parameters, counts, and estimates reported in the manuscript or supplement.
 
 ## Installation
 
@@ -42,53 +40,45 @@ pip install -r requirements.txt
 
 ## Reproduce Core Models
 
-The model script expects a locally reconstructed analysis dataset. The dataset is not included in this repository.
+The model script expects a local dataset reconstructed under the manuscript specification. The dataset is not included.
 
 ```bash
 python src/reproduce_core_models.py \
-  --analysis-dataset path/to/derived_analysis_dataset.csv \
-  --mac-source path/to/derived_mac_covariates.csv \
+  --analysis-dataset path/to/local_rebuilt_analysis.csv \
   --out outputs/reanalysis.json
 ```
 
-If `TWA_MAC` is already present in the analysis dataset, `--mac-source` can be omitted.
+If `TWA_MAC` is stored separately, add `--mac-source path/to/local_mac.csv`. The required analysis fields are:
 
-Expected core columns include:
+`CV_BIS`, `age`, `male` or `sex`, `bmi`, `asa_num` or `asa`, `opdur_min` or `opstart`/`opend`, `TWA_BIS`, and `TWA_MAC`.
 
-`CV_BIS`, `ome_per_kg_hr`, `age`, `sex`, `bmi`, `asa`, `opdur_min` or `opstart`/`opend`, `TWA_BIS`, and `TWA_MAC` for technique-aware analyses.
+The preferred locked outcomes are `ome_reset_safe_p99` and `rftn_rate_reset_safe_p99`; the aliases `ome_per_kg_hr` and `rftn_rate_mcg_kg_hr` are also accepted. When present, `eligible` applies the strict signal-quality mask.
 
-For raw remifentanil-rate sensitivity, include `rftn_rate_mcg_kg_hr`.
-
-## Regenerate Public Figures
-
-The public figure script uses only `aggregate_estimates.json`.
+## Regenerate Aggregate Figures
 
 ```bash
 python src/generate_public_figures.py --outdir outputs
 ```
 
-This regenerates:
+This creates:
 
 - `outputs/figure1_flow_public.png/.pdf/.svg`
 - `outputs/figure2_forest_public.png/.pdf/.svg`
 
-The public Figure 2 is an aggregate forest-plot version. It does not recreate patient-level scatter plots or restricted cubic spline curves because those require patient-level data.
+The aggregate forest plot recreates the reported pooled, technique-adjusted, and technique-stratified estimates. The patient-level distribution panel in the manuscript cannot be regenerated without locally reconstructing the source data and is therefore not included here.
 
-## Interpretation Caveats
+## Interpretation
 
-- The study is observational. Estimates should be interpreted as associations, not causal effects.
-- BIS variability should not be interpreted as a stand-alone nociception or opioid-requirement signal.
-- The key result is technique-dependent: pooled estimates differ from within-technique estimates.
-- External users who reconstruct the dataset may see minor numerical differences if preprocessing, signal-quality filtering, or opioid conversion choices differ.
+The observed information is anesthetic-regimen specific. The positive pooled association largely reflects separation between regimen-level operating states, whereas adjusted and within-regimen estimates are modestly inverse or null. These results support regimen-aware interpretation of BIS dynamics in monitoring and perioperative algorithm development; they do not define a causal opioid-titration rule or bedside cutoff.
 
 ## Licenses
 
-- Code in `src/` is released under the MIT License.
-- Aggregate estimates and non-code parameters in `aggregate_estimates.json` are released under CC BY 4.0.
-- The VitalDB source data are not redistributed and remain subject to VitalDB's own terms.
+- Code in `src/` is available under the MIT License.
+- Aggregate estimates and non-code parameters are available under CC BY 4.0.
+- VitalDB data are not redistributed and remain subject to their source terms.
 
 ## Citation
 
 Please cite the manuscript after publication:
 
-> [Citation to be added after publication]
+> Citation to be added after publication.
